@@ -1,0 +1,18 @@
+<nav>
+  <div>
+    <a [routerLink]="['list']" routerLinkActive="active">Aufgabenliste</a>
+  </div>
+  <div>
+    <a [routerLink]="['input']" routerLinkActive="active">Aufgabe anlegen</a>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>
+
+<!--
+<app-clarity-tasks-input (cardToAdd)="addCard($event)"></app-clarity-tasks-input>
+
+<app-clarity-tasks-list></app-clarity-tasks-list>
+
+<p>clarity-aufgaben works!</p>
+-->

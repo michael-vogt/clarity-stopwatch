@@ -1,4 +1,5 @@
 a {
+  float: left;
   display: block;
   width: 10rem;
   height: 5rem;
@@ -15,7 +16,13 @@ a:hover {
   font-weight: bold;
 }
 
+nav:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 .active {
-  background-color: lightblue;
+  background-color: lightgray;
   font-weight: bold;
 }
