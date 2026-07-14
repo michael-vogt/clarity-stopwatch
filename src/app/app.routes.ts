@@ -3,6 +3,9 @@ import { HomeComponent } from './home/home.component';
 import { ClarityTasksListComponent } from './clarity-tasks-list/clarity-tasks-list.component';
 import { ClarityTasksInputComponent } from './clarity-tasks-input/clarity-tasks-input.component';
 import { ClarityTasksComponent } from './clarity-tasks/clarity-tasks.component';
+import {
+  ClarityTasksEffordloggingComponent
+} from './clarity-tasks-effordlogging/clarity-tasks-effordlogging.component';
 
 export const routes: Routes = [
   {
@@ -26,6 +29,10 @@ export const routes: Routes = [
       {
         path: 'input',
         component: ClarityTasksInputComponent
+      },
+      {
+        path: 'effordlogging',
+        component: ClarityTasksEffordloggingComponent
       }
     ]
   },

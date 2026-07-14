@@ -2,7 +2,7 @@
   {
     "id": "TASK_00007467",
     "bezeichnung": "Einführung StandardDepot",
-    "time_spent":
+    "efford":
       [
         ["2026-07-13T00:00:00.000Z", 0],
         ["2026-07-14T00:00:00.000Z", 0],
@@ -14,7 +14,7 @@
   {
     "id": "TASK_00016818",
     "bezeichnung": "Change 2026: Fisalis@V2A",
-    "time_spent":
+    "efford":
     [
       ["2026-07-13T00:00:00.000Z", 0],
       ["2026-07-14T00:00:00.000Z", 0],

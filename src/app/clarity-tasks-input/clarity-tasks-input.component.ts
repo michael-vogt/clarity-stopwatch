@@ -14,7 +14,7 @@ export class ClarityTasksInputComponent {
   readonly internalTask = signal<ClarityTask>({
     id: '',
     bezeichnung: '',
-    time_spent: new Map<Date, number>(),
+    efford: new Map<Date, number>(),
   });
 
   add(): void {
@@ -26,7 +26,7 @@ export class ClarityTasksInputComponent {
       return {
         id: id,
         bezeichnung: bezeichnung,
-        time_spent: oldTask.time_spent,
+        efford: oldTask.efford,
       };
     });
   }

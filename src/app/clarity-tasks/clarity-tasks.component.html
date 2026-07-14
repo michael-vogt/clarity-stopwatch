@@ -5,14 +5,11 @@
   <div>
     <a [routerLink]="['input']" routerLinkActive="active">Aufgabe anlegen</a>
   </div>
+  <div>
+    <a [routerLink]="['effordlogging']" routerLinkActive="active">Aufwände erfassen</a>
+  </div>
 </nav>
 
+<hr />
+
 <router-outlet></router-outlet>
-
-<!--
-<app-clarity-tasks-input (cardToAdd)="addCard($event)"></app-clarity-tasks-input>
-
-<app-clarity-tasks-list></app-clarity-tasks-list>
-
-<p>clarity-aufgaben works!</p>
--->

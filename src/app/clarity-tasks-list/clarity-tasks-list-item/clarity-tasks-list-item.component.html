@@ -1,9 +1,9 @@
 <div>
   <h1>{{ task().bezeichnung }} [{{task().id}}]</h1>
   <h2>Aufwände:</h2>
-  @if (task().time_spent.size > 0) {
+  @if (task().efford.size > 0) {
   <ul>
-    @for (entry of task().time_spent; track entry[0]) {
+    @for (entry of task().efford; track entry[0]) {
       <li>{{entry[0] | date:'mediumDate' }}: {{ entry[1] }}</li>
     }
   </ul>

@@ -1,0 +1,8 @@
+<p>Aktuelles Datum: {{currentDate | date:'medium'}}</p>
+
+@for (task of tasks(); track task.id) {
+  <div #taskElement class="clarity-task" (click)="startStopwatch(taskElement, task.id)">
+    <h1>{{task.bezeichnung}}</h1>
+    <h2>{{task.id}}</h2>
+  </div>
+}
