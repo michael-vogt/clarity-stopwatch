@@ -1,0 +1,12 @@
+<div [class]="classesTaskState()" (click)="changeTaskState()">
+  <h1>{{task().bezeichnung}}</h1>
+  <h2>{{task().id}}</h2>
+</div>
+@if (taskState() === 'selected') {
+<div [class]="classesTaskStopwatchState()">
+  {{ stopwatchTime() }}<br/>
+  <button type="button" (click)="start()">Start</button>
+  <button type="button" (click)="pause()">Pause</button>
+  <button type="button" (click)="stop()">Stop</button>
+</div>
+}

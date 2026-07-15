@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ClarityTask } from '../clarity-tasks-list/clarity-tasks-list-item/clarity-task';
-import { ClarityTasksService } from '../clarity-tasks-service';
+import { ClarityTask } from './clarity-tasks-list/clarity-tasks-list-item/clarity-task';
+import { ClarityTasksService } from './clarity-tasks-service';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -14,12 +14,5 @@ export class ClarityTasksComponent implements OnInit {
 
   ngOnInit() {
     this.taskService.reload();
-    const map = new Map<Date, number>([
-      [new Date('2026-07-13'), 0],
-      [new Date('2026-07-14'), 0],
-    ]);
-    //console.log(JSON.stringify(Array.from(map, ([date, value]) => [date.toISOString(), value])));
   }
-
-  protected addCard($event: ClarityTask) {}
 }

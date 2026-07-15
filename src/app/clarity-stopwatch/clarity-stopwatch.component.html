@@ -1,0 +1,9 @@
+<nav>
+  <h2>App-Menü</h2>
+</nav>
+
+<hr />
+
+@for (task of tasks(); track task.id) {
+  <app-clarity-stopwatch-task [task]="task"></app-clarity-stopwatch-task>
+}

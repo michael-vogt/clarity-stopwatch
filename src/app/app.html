@@ -1,10 +1,16 @@
 <nav>
+  <h1>Hauptmenü</h1>
   <div>
     <a [routerLink]="['']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
   </div>
   <div>
     <a [routerLink]="['tasks']" routerLinkActive="active">Aufgaben App</a>
   </div>
+  <div>
+    <a [routerLink]="['stopwatch']" routerLinkActive="active">Stoppuhr App</a>
+  </div>
 </nav>
+
+<hr />
 
 <router-outlet></router-outlet>
