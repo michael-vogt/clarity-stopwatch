@@ -11,11 +11,7 @@ import { ClarityTasksService } from '../clarity-tasks-service';
 export class ClarityTasksInputComponent {
 
   private readonly taskService = inject(ClarityTasksService);
-  readonly internalTask = signal<ClarityTask>({
-    id: '',
-    bezeichnung: '',
-    efford: new Map<Date, number>(),
-  });
+  readonly internalTask = signal<ClarityTask>(ClarityTask.empty());
 
   add(): void {
     this.taskService.addTask(this.internalTask());
@@ -23,11 +19,11 @@ export class ClarityTasksInputComponent {
 
   protected updateTask(id: string, bezeichnung: string): void {
     this.internalTask.update((oldTask) => {
-      return {
-        id: id,
-        bezeichnung: bezeichnung,
-        efford: oldTask.efford,
-      };
+      const task = new ClarityTask();
+      task.id = id;
+      task.bezeichnung = bezeichnung;
+      task.efford = oldTask.efford;
+      return task;
     });
   }
 }

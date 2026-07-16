@@ -5,6 +5,7 @@ import { ClarityTasksInputComponent } from './clarity-tasks/clarity-tasks-input/
 import { ClarityTasksComponent } from './clarity-tasks/clarity-tasks.component';
 import { ClarityTasksEffordloggingComponent } from './clarity-tasks/clarity-tasks-effordlogging/clarity-tasks-effordlogging.component';
 import { ClarityStopwatchComponent } from './clarity-stopwatch/clarity-stopwatch.component';
+import { clarityTasksResolver } from './clarity-tasks/clarity-tasks-resolver';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,7 @@ export const routes: Routes = [
   {
     path: 'tasks',
     component: ClarityTasksComponent,
+    resolve: { tasks: clarityTasksResolver },
     children: [
       {
         path: '',
@@ -28,10 +30,6 @@ export const routes: Routes = [
       {
         path: 'input',
         component: ClarityTasksInputComponent
-      },
-      {
-        path: 'effordlogging',
-        component: ClarityTasksEffordloggingComponent
       }
     ]
   },

@@ -10,7 +10,14 @@ import { ClarityTasksService } from '../clarity-tasks-service';
   styleUrl: './clarity-tasks-list.component.scss',
 })
 export class ClarityTasksListComponent {
-  private readonly taskService = inject(ClarityTasksService);
+  protected readonly taskService = inject(ClarityTasksService);
 
   readonly tasks = this.taskService.tasks;
+
+  persist(): void {
+    this.taskService.persist().subscribe({
+      next: () => console.log('Gespeichert'),
+      error: (err) => console.log('Fehler beim Speichern', err),
+    });
+  }
 }

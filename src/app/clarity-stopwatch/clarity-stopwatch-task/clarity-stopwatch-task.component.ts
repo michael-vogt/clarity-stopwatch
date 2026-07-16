@@ -1,104 +1,104 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { ClarityTask } from '../../clarity-tasks/clarity-tasks-list/clarity-tasks-list-item/clarity-task';
-import { interval, Subscription } from 'rxjs';
-
-export type ClarityTaskState = 'unselected' | 'selected';
-export type ClarityTaskStopwatchState = 'running' | 'paused' | 'stopped';
+import { Subscription, switchMap } from 'rxjs';
+import { ClarityStopwatchService, StopwatchState } from '../clarity-stopwatch.service';
+import { AsyncPipe } from '@angular/common';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { ClarityTasksService } from '../../clarity-tasks/clarity-tasks-service';
 
 @Component({
   selector: 'app-clarity-stopwatch-task',
-  imports: [],
+  imports: [AsyncPipe],
   templateUrl: './clarity-stopwatch-task.component.html',
   styleUrl: './clarity-stopwatch-task.component.scss',
 })
 export class ClarityStopwatchTaskComponent {
+  private readonly stopwatchService = inject(ClarityStopwatchService);
+  private readonly taskService = inject(ClarityTasksService);
 
   readonly task = input.required<ClarityTask>();
-  protected taskState = signal<ClarityTaskState>('unselected');
-  protected taskStopwatchState = signal<ClarityTaskStopwatchState>('stopped');
+  private readonly taskId = computed(() => this.task().id);
+  readonly time$ = toObservable(this.taskId).pipe(
+    switchMap((id) => this.stopwatchService.getFormattedTime(id)),
+  );
+
+  readonly state$ = toObservable(this.taskId).pipe(
+    switchMap((id) => this.stopwatchService.getState(id)),
+  );
+
+  protected internalState = signal<StopwatchState>(StopwatchState.Stopped);
+  private subscription?: Subscription;
 
   readonly classesTaskState = computed(() => {
     return {
       'clarity-task': true,
-      'selected': this.taskState() === 'selected'
+      selected: this.isSelected(),
     };
   });
 
   readonly classesTaskStopwatchState = computed(() => {
     return {
       'clarity-task-stopwatch': true,
-      'running': this.taskStopwatchState() === 'running',
-      'paused': this.taskStopwatchState() === 'paused',
-      'stopped': this.taskStopwatchState() === 'stopped'
-    }
+      running: this.internalState() === StopwatchState.Running,
+      paused: this.internalState() === StopwatchState.Paused,
+      stopped: this.internalState() === StopwatchState.Stopped,
+    };
   });
 
-  protected elapsedTime = signal<number>(0);
-  readonly stopwatchTime = computed(() => {
-    return this.formatTime(this.elapsedTime());
+  protected isSelected = computed(() => {
+    const selected = this.taskService.selectedTask();
+    return selected?.id === this.taskId();
   });
 
-  private timerSub?: Subscription;
-  private startTime = 0;
+  ngOnInit(): void {
+    this.subscription = this.state$.subscribe((state) => {
+      this.internalState.set(state);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
 
   start(): void {
-    if (this.timerSub) {
-      return;
-    }
-
-    this.startTime = Date.now() - this.elapsedTime();
-    this.timerSub = interval(100).subscribe(() => {
-      this.elapsedTime.set(Date.now() - this.startTime);
-      console.log(this.elapsedTime());
-    });
-    this.taskStopwatchState.set('running');
-    this.taskState.set('selected');
+    this.stopwatchService.start(this.task().id);
   }
 
   pause(): void {
-    this.timerSub?.unsubscribe();
-    this.timerSub = undefined;
-    this.taskStopwatchState.set('paused');
-    this.taskState.set('selected');
+    this.stopwatchService.pause(this.task().id);
   }
 
   stop(): void {
-    this.pause();
-    this.elapsedTime.set(0);
-    this.taskStopwatchState.set('stopped');
-    this.taskState.set('selected');
+    const newDate = new Date('2026-07-16');
+    const elapsedTime = this.stopwatchService.get(this.taskId())?.elapsedTime ?? 0;
+
+    /*const map = this.task().efford;
+    const key = [...map.keys()].find(d => d.getTime() === newDate.getTime()) ?? newDate;
+
+
+
+    const elapsedTime = this.stopwatchService.get(this.taskId())?.elapsedTime ?? 0;
+    const oldElapsedTime = this.taskService.findTask(this.taskId())?.efford.get(key) ?? 0;
+
+    this.task().efford.set(key, oldElapsedTime + elapsedTime);*/
+    this.taskService.addElapsedTime(this.taskId(), elapsedTime, newDate);
+    console.log(this.task().efford);
+    this.stopwatchService.stop(this.task().id);
   }
 
-  private formatTime(elapsedTime: number): string {
-    const totalSeconds = Math.floor(elapsedTime / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    return `${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}`;
-  }
-
-  private pad(value: number): string {
-    return value.toString().padStart(2, '0');
-  }
-
-  changeTaskState():void {
-    if (this.taskState() === 'unselected') {
-      this.taskState.set('selected');
+  selectTask(): void {
+    const oldSelectedTask = this.taskService.selectTask(this.task());
+    if (oldSelectedTask !== this.task()) {
+      this.stopwatchService.pauseIfRunning(oldSelectedTask.id);
     } else {
-      this.taskState.set('unselected');
+      if (this.internalState() === StopwatchState.Running) {
+        this.pause();
+      } else if (this.internalState() === StopwatchState.Paused || this.internalState() === StopwatchState.Stopped) {
+        this.start();
+      }
     }
+
   }
 
-  setTaskStopwatchState(taskStopwatchState: ClarityTaskStopwatchState): void {
-    if (this.taskStopwatchState() !== taskStopwatchState) {
-      this.taskStopwatchState.set(taskStopwatchState);
-    }
-
-    if (taskStopwatchState === 'running') {
-      this.taskState.set('selected');
-    }
-  }
-
-
+  protected readonly StopwatchState = StopwatchState;
 }

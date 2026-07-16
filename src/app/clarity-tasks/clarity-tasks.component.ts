@@ -13,6 +13,7 @@ export class ClarityTasksComponent implements OnInit {
   private readonly taskService = inject(ClarityTasksService);
 
   ngOnInit() {
-    this.taskService.reload();
+    /*this.taskService.reload();
+    console.log('Component loaded');*/
   }
 }
