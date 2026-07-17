@@ -8,13 +8,19 @@
     <input type="text"
            id="bezeichnung"
            #bezeichnung
-           (input)="updateTask(id.value, bezeichnung.value)" />
+           (input)="updateTask(id.value, bezeichnung.value, gruppe.value)" />
+
+    <label for="gruppe">Gruppe</label>
+    <input type="text"
+           id="gruppe"
+           #gruppe
+           (input)="updateTask(id.value, gruppe.value, gruppe.value)" />
 
     <label for="id">ID</label>
     <input type="text"
            id="id"
            #id
-           (input)="updateTask(id.value, bezeichnung.value)" />
+           (input)="updateTask(id.value, bezeichnung.value, gruppe.value)" />
   </fieldset>
 
   <button type="button" style="float:right" (click)="add()">speichern</button>

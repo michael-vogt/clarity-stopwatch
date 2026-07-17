@@ -24,13 +24,8 @@ export class ClarityTasksService {
       return;
     }
 
-    const key = toDayKey(date); //[...task.effort.keys()].find(d => d.getTime() === date.getTime());
+    const key = toDayKey(date)
     task.effort.set(key, (task.effort.get(key) ?? 0) + elapsedTime);
-    /*if (key) {
-      task.effort.set(key, (task.effort.get(key) ?? 0) + elapsedTime);
-    } else {
-      task.effort.set(date, elapsedTime);
-    }*/
 
     this.items.update(tasks => [...tasks]);
   }
@@ -52,6 +47,22 @@ export class ClarityTasksService {
     return undefined;
   }
 
+  getTasksForGroup(group: string): ClarityTask[] {
+    return this.tasks().filter(task => task.gruppe === group);
+  }
+
+  groups(): string[] {
+    const groups = new Set<string>();
+
+    this.tasks().forEach((task) => {
+      if (!groups.has(task.gruppe)) {
+        groups.add(task.gruppe);
+      }
+    });
+
+    return [...groups];
+  }
+
   selectTask(task: ClarityTask): ClarityTask {
     const oldSelectedTask = this.selectedTask();
     if (task.id === oldSelectedTask.id) {
@@ -71,7 +82,12 @@ export class ClarityTasksService {
     }
 
     this.http.get<ClarityTaskDto[]>('/clarity-tasks.json').subscribe((dtos) => {
-      const tasks = dtos.map(ClarityTask.fromDto);
+      const tasks = dtos.map(ClarityTask.fromDto).sort((a, b) => {
+        if (a.gruppe !== b.gruppe) {
+          return a.gruppe.localeCompare(b.gruppe);
+        }
+        return a.bezeichnung.localeCompare(a.bezeichnung);
+      });
       this.items.set(tasks);
       this.loaded = true;
     });
@@ -79,7 +95,6 @@ export class ClarityTasksService {
 
   persist(): Observable<void> {
     const dtos: ClarityTaskDto[] = this.items().map(task => task.toDto());
-    //console.log(dtos);
     return this.http.put<void>('/clarity-tasks.json', dtos);
   }
 

@@ -17,11 +17,12 @@ export class ClarityTasksInputComponent {
     this.taskService.addTask(this.internalTask());
   }
 
-  protected updateTask(id: string, bezeichnung: string): void {
+  protected updateTask(id: string, bezeichnung: string, gruppe: string): void {
     this.internalTask.update((oldTask) => {
       const task = new ClarityTask();
       task.id = id;
       task.bezeichnung = bezeichnung;
+      task.gruppe = gruppe;
       task.effort = oldTask.effort;
       return task;
     });

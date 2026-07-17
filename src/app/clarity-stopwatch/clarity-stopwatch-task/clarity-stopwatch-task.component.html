@@ -1,25 +1,27 @@
-<div [class]="classesTaskState()" (click)="selectTask()">
-  <h1>{{task().bezeichnung}}</h1>
-  <h2>{{task().id}}</h2>
-</div>
-@if (isSelected() || internalState() !== StopwatchState.Stopped) {
-<div [class]="classesTaskStopwatchState()">
-  {{ time$ | async }}<br/>
-  <button type="button"
-          (click)="start()"
-          [disabled]="(state$ | async) === StopwatchState.Running">
-    Start
-  </button>
+<div class="task-container">
+  <div [class]="classesTaskState()" (click)="selectTask()">
+    <h1>{{task().bezeichnung}}</h1>
+    <h2>{{task().id}}</h2>
+  </div>
+  @if (isSelected() || internalState() !== StopwatchState.Stopped) {
+  <div [class]="classesTaskStopwatchState()">
+    {{ time$ | async }}<br/>
+    <button type="button"
+            (click)="start()"
+            [disabled]="(state$ | async) === StopwatchState.Running">
+      Start
+    </button>
 
-  <button type="button"
-          (click)="pause()"
-          [disabled]="(state$ | async) !== StopwatchState.Running">
-    Pause
-  </button>
-  <button type="button"
-          (click)="stop()"
-          [disabled]="(state$ | async) === StopwatchState.Stopped">
-    Stop
-  </button>
+    <button type="button"
+            (click)="pause()"
+            [disabled]="(state$ | async) !== StopwatchState.Running">
+      Pause
+    </button>
+    <button type="button"
+            (click)="stop()"
+            [disabled]="(state$ | async) === StopwatchState.Stopped">
+      Stop
+    </button>
+  </div>
+  }
 </div>
-}

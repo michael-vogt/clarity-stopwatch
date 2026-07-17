@@ -9,12 +9,14 @@ export function toDayKey(date: Date): string {
 export class ClarityTask {
   id!: string;
   bezeichnung!: string;
+  gruppe!: string;
   effort = new Map<string, number>;
 
   static empty(): ClarityTask {
     const task = new ClarityTask();
     task.id = '';
     task.bezeichnung = '';
+    task.gruppe = '';
     task.effort = new Map<string, number>();
     return task;
   }
@@ -23,6 +25,7 @@ export class ClarityTask {
     const task  = new ClarityTask();
     task .id = dto.id;
     task.bezeichnung = dto.bezeichnung;
+    task.gruppe = dto.gruppe;
     task.effort = new Map(dto.effort);
     return task;
   }
@@ -31,6 +34,7 @@ export class ClarityTask {
     return {
       id: this.id,
       bezeichnung: this.bezeichnung,
+      gruppe: this.gruppe,
       effort: [...this.effort.entries()],
     };
   }

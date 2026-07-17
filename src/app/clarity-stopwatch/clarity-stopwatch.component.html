@@ -4,6 +4,11 @@
 
 <hr />
 
-@for (task of tasks(); track task.id) {
-  <app-clarity-stopwatch-task [task]="task"></app-clarity-stopwatch-task>
+@for (grp of groups(); track grp) {
+  <h3>{{grp}}</h3>
+  <div class="test">
+  @for (task of tasksForGroup(grp); track task.id) {
+    <app-clarity-stopwatch-task [task]="task"></app-clarity-stopwatch-task>
+  }
+  </div>
 }

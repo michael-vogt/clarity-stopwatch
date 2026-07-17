@@ -1,5 +1,6 @@
 <div>
   <h1>{{ task().bezeichnung }} [{{task().id}}]</h1>
+  <h2>Gruppe: {{ task().gruppe }}</h2>
   <h2>Aufwände:</h2>
   @if (task().effort.size > 0) {
   <ul>
