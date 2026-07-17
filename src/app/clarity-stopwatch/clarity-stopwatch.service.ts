@@ -80,6 +80,18 @@ export class ClarityStopwatchService {
     }
   }
 
+  remove(taskId: string): void {
+    const stopwatch = this.stopwatches.get(taskId);
+    if (!stopwatch) {
+      return;
+    }
+
+    this.stopTimer(stopwatch);
+    stopwatch.subject.complete();
+    stopwatch.state.complete();
+    this.stopwatches.delete(taskId);
+  }
+
   stop(taskId: string): void {
     const stopwatch = this.getOrCreate(taskId);
     this.stopTimer(stopwatch);

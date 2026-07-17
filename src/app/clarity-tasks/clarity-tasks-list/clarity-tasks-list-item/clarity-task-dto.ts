@@ -1,7 +1,7 @@
-export type EffordDto = [date: string, value: number];
+export type EffortDto = [date: string, value: number];
 
 export interface ClarityTaskDto {
   id: string;
   bezeichnung: string;
-  efford: EffordDto[];
+  effort: EffortDto[];
 }

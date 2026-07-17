@@ -69,20 +69,9 @@ export class ClarityStopwatchTaskComponent {
   }
 
   stop(): void {
-    const newDate = new Date('2026-07-16');
+    const newDate = new Date();
     const elapsedTime = this.stopwatchService.get(this.taskId())?.elapsedTime ?? 0;
-
-    /*const map = this.task().efford;
-    const key = [...map.keys()].find(d => d.getTime() === newDate.getTime()) ?? newDate;
-
-
-
-    const elapsedTime = this.stopwatchService.get(this.taskId())?.elapsedTime ?? 0;
-    const oldElapsedTime = this.taskService.findTask(this.taskId())?.efford.get(key) ?? 0;
-
-    this.task().efford.set(key, oldElapsedTime + elapsedTime);*/
     this.taskService.addElapsedTime(this.taskId(), elapsedTime, newDate);
-    console.log(this.task().efford);
     this.stopwatchService.stop(this.task().id);
   }
 

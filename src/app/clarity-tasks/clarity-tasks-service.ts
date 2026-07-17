@@ -1,6 +1,6 @@
 import { inject, Service, signal, WritableSignal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ClarityTask } from './clarity-tasks-list/clarity-tasks-list-item/clarity-task';
+import { ClarityTask, toDayKey } from './clarity-tasks-list/clarity-tasks-list-item/clarity-task';
 import { ClarityTaskDto } from './clarity-tasks-list/clarity-tasks-list-item/clarity-task-dto';
 import { Observable } from 'rxjs';
 
@@ -24,12 +24,13 @@ export class ClarityTasksService {
       return;
     }
 
-    const key = [...task.efford.keys()].find(d => d.getTime() === date.getTime());
-    if (key) {
-      task.efford.set(key, (task.efford.get(key) ?? 0) + elapsedTime);
+    const key = toDayKey(date); //[...task.effort.keys()].find(d => d.getTime() === date.getTime());
+    task.effort.set(key, (task.effort.get(key) ?? 0) + elapsedTime);
+    /*if (key) {
+      task.effort.set(key, (task.effort.get(key) ?? 0) + elapsedTime);
     } else {
-      task.efford.set(date, elapsedTime);
-    }
+      task.effort.set(date, elapsedTime);
+    }*/
 
     this.items.update(tasks => [...tasks]);
   }

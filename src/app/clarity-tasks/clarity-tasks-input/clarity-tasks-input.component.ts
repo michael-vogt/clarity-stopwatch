@@ -22,7 +22,7 @@ export class ClarityTasksInputComponent {
       const task = new ClarityTask();
       task.id = id;
       task.bezeichnung = bezeichnung;
-      task.efford = oldTask.efford;
+      task.effort = oldTask.effort;
       return task;
     });
   }
