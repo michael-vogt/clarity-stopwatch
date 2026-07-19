@@ -1,18 +1,20 @@
-.test {
-  border: 1px solid black;
-  border-radius: 1rem;
-  padding: 1rem;
+.kategorie {
+  cursor: pointer;
+  user-select: none;
+}
+
+.inhalt {
   margin-bottom: 1rem;
+  border-bottom: 1px dashed black;
+  padding: 1rem 1rem 2rem;
 }
 
-.test:after {
+.inhalt:last-child {
+  border: none;
+}
+
+.inhalt:after {
   content: "";
   display: block;
   clear: both;
 }
-
-/*h3:before {
-  content: "";
-  display: block;
-  clear: both;
-}*/

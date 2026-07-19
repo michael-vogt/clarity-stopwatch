@@ -1,10 +1,9 @@
 import { Component, input } from '@angular/core';
 import { ClarityTask } from './clarity-task';
-import { DatePipe, JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-clarity-tasks-list-item',
-  imports: [ DatePipe ],
+  imports: [  ],
   templateUrl: './clarity-tasks-list-item.component.html',
   styleUrl: './clarity-tasks-list-item.component.scss',
 })

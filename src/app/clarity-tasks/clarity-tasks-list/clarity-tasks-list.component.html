@@ -1,5 +1,10 @@
 <button type="button" (click)="persist()">Exportieren</button>
 
-@for (task of tasks(); track task.id) {
-  <app-clarity-tasks-list-item [task]="task"></app-clarity-tasks-list-item>
+@for (grp of groups(); track grp) {
+  <h2>{{grp}}</h2>
+  <ul>
+  @for (task of tasksForGroup(grp); track task.id) {
+    <app-clarity-tasks-list-item [task]="task"></app-clarity-tasks-list-item>
+  }
+  </ul>
 }

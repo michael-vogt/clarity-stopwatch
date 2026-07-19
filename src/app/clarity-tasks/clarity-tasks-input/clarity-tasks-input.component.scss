@@ -9,5 +9,17 @@ fieldset label {
 .formular {
   display: grid;
   grid-template-columns: max-content 1fr;
+  gap: 1rem;
+  align-items: start;
+}
 
+.feld {
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  color: #d32f2f;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
 }

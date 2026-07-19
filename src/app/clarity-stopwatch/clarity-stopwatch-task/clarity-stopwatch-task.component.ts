@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, model, signal } from '@angular/core';
 import { ClarityTask } from '../../clarity-tasks/clarity-tasks-list/clarity-tasks-list-item/clarity-task';
 import { Subscription, switchMap } from 'rxjs';
 import { ClarityStopwatchService, StopwatchState } from '../clarity-stopwatch.service';
@@ -22,6 +22,8 @@ export class ClarityStopwatchTaskComponent {
     switchMap((id) => this.stopwatchService.getFormattedTime(id)),
   );
 
+  readonly selected = model.required<boolean>();
+
   readonly state$ = toObservable(this.taskId).pipe(
     switchMap((id) => this.stopwatchService.getState(id)),
   );
@@ -32,7 +34,7 @@ export class ClarityStopwatchTaskComponent {
   readonly classesTaskState = computed(() => {
     return {
       'clarity-task': true,
-      selected: this.isSelected(),
+      selected: this.selected(),
     };
   });
 
@@ -43,11 +45,6 @@ export class ClarityStopwatchTaskComponent {
       paused: this.internalState() === StopwatchState.Paused,
       stopped: this.internalState() === StopwatchState.Stopped,
     };
-  });
-
-  protected isSelected = computed(() => {
-    const selected = this.taskService.selectedTask();
-    return selected?.id === this.taskId();
   });
 
   ngOnInit(): void {
@@ -86,6 +83,8 @@ export class ClarityStopwatchTaskComponent {
         this.start();
       }
     }
+
+    this.selected.set(true);
 
   }
 

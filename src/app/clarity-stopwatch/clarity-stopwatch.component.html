@@ -5,10 +5,23 @@
 <hr />
 
 @for (grp of groups(); track grp) {
-  <h3>{{grp}}</h3>
-  <div class="test">
-  @for (task of tasksForGroup(grp); track task.id) {
-    <app-clarity-stopwatch-task [task]="task"></app-clarity-stopwatch-task>
+  <h3 class="kategorie" (click)="toggleGroup(grp)">
+    {{grp}}
+    <span>
+      {{ isExpanded(grp) ? '▲' : '▼' }}
+    </span>
+  </h3>
+  @if (isExpanded(grp)) {
+    <div class="inhalt"
+         (click)="clearSelection()">
+
+    @for (task of tasksForGroup(grp); track task.id) {
+      <app-clarity-stopwatch-task
+        [task]="task"
+        [selected]="selectedTaskId() === task.id"
+        (selectedChange)="selectedTaskId.set($event ? task.id : null)"
+        (click)="$event.stopPropagation()"></app-clarity-stopwatch-task>
+    }
+    </div>
   }
-  </div>
 }

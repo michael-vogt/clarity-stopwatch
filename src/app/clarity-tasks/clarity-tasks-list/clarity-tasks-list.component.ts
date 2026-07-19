@@ -14,6 +14,14 @@ export class ClarityTasksListComponent {
 
   readonly tasks = this.taskService.tasks;
 
+  protected groups(): string[] {
+    return this.taskService.groups();
+  }
+
+  protected tasksForGroup(group: string): ClarityTask[] {
+    return this.taskService.getTasksForGroup(group);
+  }
+
   persist(): void {
     this.taskService.persist().subscribe({
       next: () => console.log('Gespeichert'),

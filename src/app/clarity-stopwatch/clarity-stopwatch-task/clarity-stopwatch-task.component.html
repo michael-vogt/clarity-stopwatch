@@ -1,9 +1,10 @@
 <div class="task-container">
+  {{ selected() }}
   <div [class]="classesTaskState()" (click)="selectTask()">
     <h1>{{task().bezeichnung}}</h1>
     <h2>{{task().id}}</h2>
   </div>
-  @if (isSelected() || internalState() !== StopwatchState.Stopped) {
+  @if (selected() || internalState() !== StopwatchState.Stopped) {
   <div [class]="classesTaskStopwatchState()">
     {{ time$ | async }}<br/>
     <button type="button"
