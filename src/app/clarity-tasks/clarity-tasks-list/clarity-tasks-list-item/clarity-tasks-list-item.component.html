@@ -11,9 +11,19 @@
   } @else {
     <p>noch keine Aufwände gebucht</p>
   }
-</div>-->
+</div>
 
 <li>
   {{ task().bezeichnung }}
   <span class="taskId">[{{ task().id }}]</span>
-</li>
+</li>-->
+
+<div class="grid-row">
+  <div class="grid-cell">
+    <span class="task-bezeichnung">{{ task().bezeichnung }}</span><br/>
+    <span class="task-id">{{ task().id }}</span>
+  </div>
+  @for (day of daysOfWeek(); track day) {
+    <div class="grid-cell">{{ day }}</div>
+  }
+</div>

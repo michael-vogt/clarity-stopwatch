@@ -4,6 +4,13 @@ import { ClarityTask } from './clarity-tasks-list/clarity-tasks-list-item/clarit
 import { ClarityTaskDto } from './clarity-tasks-list/clarity-tasks-list-item/clarity-task-dto';
 import { Observable } from 'rxjs';
 
+export function dateToKey(date: Date): string {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return [year, month, day].join('-');
+}
+
 @Service()
 export class ClarityTasksService {
 

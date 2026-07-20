@@ -1,10 +1,34 @@
 <button type="button" (click)="persist()">Exportieren</button>
 
-@for (grp of groups(); track grp) {
+<!--@for (grp of groups(); track grp) {
   <h2>{{grp}}</h2>
   <ul>
   @for (task of taskService.getTasksForGroup(grp); track task.id) {
     <app-clarity-tasks-list-item [task]="task"></app-clarity-tasks-list-item>
   }
   </ul>
-}
+}-->
+
+<label for="stopwatch-date">Datum</label>
+<input id="stopwatch-date"
+       type="date"
+       [value]="selectedDateInput()"
+       (change)="onDateInputChange($any($event.target).value)">
+
+<div class="grid-wrapper">
+  <div class="grid-row grid-header">
+    <div class="grid-cell">Bezeichnung</div>
+    <div class="grid-cell">Montag</div>
+    <div class="grid-cell">Dienstag</div>
+    <div class="grid-cell">Mittwoch</div>
+    <div class="grid-cell">Donnerstag</div>
+    <div class="grid-cell">Freitag</div>
+  </div>
+  @for (grp of groups(); track grp) {
+    <div class="grid-cell-group">{{ grp }}</div>
+    @for (task of taskService.getTasksForGroup(grp); track task.id) {
+      <app-clarity-tasks-list-item [task]="task"
+                                   [date]="date()"></app-clarity-tasks-list-item>
+    }
+  }
+</div>
