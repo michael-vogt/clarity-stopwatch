@@ -2,6 +2,7 @@
   <div [class]="classesTaskState()" (click)="selectTask()">
     <h1>{{task().bezeichnung}}</h1>
     <h2>{{task().id}}</h2>
+    <span>{{ date().toLocaleDateString() }}: Derzeit {{ currentEffort() | elapsedTime }}</span>
   </div>
   @if (selected() || internalState() !== StopwatchState.Stopped) {
   <div [class]="classesTaskStopwatchState()">

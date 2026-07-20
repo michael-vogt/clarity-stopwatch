@@ -28,7 +28,7 @@ export function createTaskIdUniqueValidator(taskService: ClarityTasksService): V
 })
 export class ClarityTasksInputComponent {
 
-  private readonly taskService = inject(ClarityTasksService);
+  protected readonly taskService = inject(ClarityTasksService);
   readonly internalTask = signal<ClarityTask>(ClarityTask.empty());
 
   updateTask(bezeichnung: string, gruppe: string, id: string) {

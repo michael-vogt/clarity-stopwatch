@@ -3,6 +3,25 @@
   user-select: none;
 }
 
+.datum-auswahl {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+
+  &.datum-abweichend {
+    background-color: #fff3cd;
+    border: 1px solid #f0ad4e;
+  }
+}
+
+.datum-hinweis {
+  color: #92400e;
+  font-weight: bold;
+}
+
 .inhalt {
   margin-bottom: 1rem;
   border-bottom: 1px dashed black;

@@ -1,5 +1,19 @@
 <nav>
   <h2>App-Menü</h2>
+
+  <div class="datum-auswahl" [class.datum-abweichend]="!isToday()">
+    <label for="stopwatch-date">Datum</label>
+    <input id="stopwatch-date"
+           type="date"
+           [value]="selectedDateInput()"
+           (change)="onDateInputChange($any($event.target).value)">
+
+    @if (!isToday()) {
+      <span class="datum-hinweis">⚠ nicht der heutige Tag</span>
+      <button type="button" (click)="resetToToday()">Heute</button>
+    }
+  </div>
+
 </nav>
 
 <hr />
@@ -18,6 +32,7 @@
     @for (task of taskService.getTasksForGroup(grp); track task.id) {
       <app-clarity-stopwatch-task
         [task]="task"
+        [date]="selectedDate()"
         [selected]="selectedTaskId() === task.id"
         [currentlySelectedTaskId]="selectedTaskId()"
         (selectedChange)="selectedTaskId.set($event ? task.id : null)"

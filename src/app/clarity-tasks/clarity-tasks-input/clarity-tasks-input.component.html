@@ -21,8 +21,14 @@
     <div class="feld">
       <input type="text"
              id="gruppe"
+             list="groupList"
              formControlName="gruppe"
              (input)="updateTask(bezeichnung.value, gruppe.value, id.value)" />
+      <datalist id="groupList">
+        @for (grp of taskService.groups(); track grp) {
+          <option value="{{grp}}">
+        }
+      </datalist>
       @if (hasError(gruppe, 'required')) {
         <span class="error">Pflichtfeld</span>
       } @else if (hasError(gruppe, 'maxlength')) {
