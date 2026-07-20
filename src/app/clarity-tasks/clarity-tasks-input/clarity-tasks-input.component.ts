@@ -1,7 +1,24 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule, ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { ClarityTask } from '../clarity-tasks-list/clarity-tasks-list-item/clarity-task';
 import { ClarityTasksService } from '../clarity-tasks-service';
+
+export function createTaskIdUniqueValidator(taskService: ClarityTasksService): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const taskId:string = control.value;
+    if (taskService.idExists(taskId)) {
+      return {idUniqueness : true};
+    }
+    return null;
+  }
+}
 
 @Component({
   selector: 'app-clarity-tasks-input',
@@ -31,7 +48,7 @@ export class ClarityTasksInputComponent {
   form = this.fb.nonNullable.group({
     bezeichnung: ['', [Validators.required, Validators.maxLength(this.MAX_BEZEICHNUNG_LENGTH)]],
     gruppe: ['', [Validators.required, Validators.maxLength(this.MAX_GRUPPE_LENGTH)]],
-    id: ['', [Validators.required]],
+    id: ['', [Validators.required, createTaskIdUniqueValidator(this.taskService)]],
   });
 
   get bezeichnung() {
@@ -56,7 +73,6 @@ export class ClarityTasksInputComponent {
       return;
     }
 
-    //console.log(this.internalTask());
     this.taskService.addTask(this.internalTask());
     this.form.reset();
   }

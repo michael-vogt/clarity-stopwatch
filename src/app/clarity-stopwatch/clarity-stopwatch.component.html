@@ -15,10 +15,11 @@
     <div class="inhalt"
          (click)="clearSelection()">
 
-    @for (task of tasksForGroup(grp); track task.id) {
+    @for (task of taskService.getTasksForGroup(grp); track task.id) {
       <app-clarity-stopwatch-task
         [task]="task"
         [selected]="selectedTaskId() === task.id"
+        [currentlySelectedTaskId]="selectedTaskId()"
         (selectedChange)="selectedTaskId.set($event ? task.id : null)"
         (click)="$event.stopPropagation()"></app-clarity-stopwatch-task>
     }

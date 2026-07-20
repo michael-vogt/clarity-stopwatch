@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ClarityTasksService } from '../clarity-tasks/clarity-tasks-service';
 import { ClarityStopwatchTaskComponent } from './clarity-stopwatch-task/clarity-stopwatch-task.component';
-import { ClarityTask } from '../clarity-tasks/clarity-tasks-list/clarity-tasks-list-item/clarity-task';
 
 @Component({
   selector: 'app-clarity-stopwatch',
@@ -10,7 +9,8 @@ import { ClarityTask } from '../clarity-tasks/clarity-tasks-list/clarity-tasks-l
   styleUrl: './clarity-stopwatch.component.scss',
 })
 export class ClarityStopwatchComponent {
-  private readonly taskService = inject(ClarityTasksService);
+  protected readonly taskService = inject(ClarityTasksService);
+  readonly groups = this.taskService.groups;
   readonly tasks = this.taskService.tasks;
 
   selectedTaskId = signal<string | null>(null);
@@ -36,14 +36,6 @@ export class ClarityStopwatchComponent {
 
   isExpanded(group: string): boolean {
     return this.expandedGroups().has(group);
-  }
-
-  protected groups(): string[] {
-    return this.taskService.groups();
-  }
-
-  protected tasksForGroup(group: string): ClarityTask[] {
-    return this.taskService.getTasksForGroup(group);
   }
 
 }

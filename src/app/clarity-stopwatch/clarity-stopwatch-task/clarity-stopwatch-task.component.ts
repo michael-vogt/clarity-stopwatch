@@ -3,7 +3,7 @@ import { ClarityTask } from '../../clarity-tasks/clarity-tasks-list/clarity-task
 import { Subscription, switchMap } from 'rxjs';
 import { ClarityStopwatchService, StopwatchState } from '../clarity-stopwatch.service';
 import { AsyncPipe } from '@angular/common';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { ClarityTasksService } from '../../clarity-tasks/clarity-tasks-service';
 
 @Component({
@@ -22,6 +22,7 @@ export class ClarityStopwatchTaskComponent {
     switchMap((id) => this.stopwatchService.getFormattedTime(id)),
   );
 
+  readonly currentlySelectedTaskId = input.required<string | null>();
   readonly selected = model.required<boolean>();
 
   readonly state$ = toObservable(this.taskId).pipe(
@@ -73,19 +74,23 @@ export class ClarityStopwatchTaskComponent {
   }
 
   selectTask(): void {
-    const oldSelectedTask = this.taskService.selectTask(this.task());
-    if (oldSelectedTask !== this.task()) {
-      this.stopwatchService.pauseIfRunning(oldSelectedTask.id);
+    const taskId = this.currentlySelectedTaskId();
+    const oldSelectedTask = (taskId) ? this.taskService.findTask(taskId) : undefined;
+
+    if (!oldSelectedTask) {
+      this.selected.set(true);
     } else {
-      if (this.internalState() === StopwatchState.Running) {
-        this.pause();
-      } else if (this.internalState() === StopwatchState.Paused || this.internalState() === StopwatchState.Stopped) {
-        this.start();
+      if (oldSelectedTask !== this.task()) {
+        this.stopwatchService.pauseIfRunning(oldSelectedTask.id);
+        this.selected.set(true);
+      } else {
+        if (this.internalState() === StopwatchState.Running) {
+          this.pause();
+        } else {
+          this.start();
+        }
       }
     }
-
-    this.selected.set(true);
-
   }
 
   protected readonly StopwatchState = StopwatchState;

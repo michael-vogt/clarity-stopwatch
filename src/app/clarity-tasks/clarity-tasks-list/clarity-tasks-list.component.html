@@ -3,7 +3,7 @@
 @for (grp of groups(); track grp) {
   <h2>{{grp}}</h2>
   <ul>
-  @for (task of tasksForGroup(grp); track task.id) {
+  @for (task of taskService.getTasksForGroup(grp); track task.id) {
     <app-clarity-tasks-list-item [task]="task"></app-clarity-tasks-list-item>
   }
   </ul>

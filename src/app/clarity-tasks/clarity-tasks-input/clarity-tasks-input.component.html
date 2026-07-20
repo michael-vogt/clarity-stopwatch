@@ -38,6 +38,8 @@
            (input)="updateTask(bezeichnung.value, gruppe.value, id.value)" />
     @if(hasError(id, 'required')) {
       <span class="error">Pflichtfeld</span>
+    } @else if (hasError(id, 'idUniqueness')) {
+      <span class="error">ID existiert bereits</span>
     }
     </div>
 

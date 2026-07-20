@@ -1,6 +1,6 @@
-import { inject, Service, signal, WritableSignal } from '@angular/core';
+import { computed, inject, Service, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ClarityTask, toDayKey } from './clarity-tasks-list/clarity-tasks-list-item/clarity-task';
+import { ClarityTask } from './clarity-tasks-list/clarity-tasks-list-item/clarity-task';
 import { ClarityTaskDto } from './clarity-tasks-list/clarity-tasks-list-item/clarity-task-dto';
 import { Observable } from 'rxjs';
 
@@ -10,8 +10,6 @@ export class ClarityTasksService {
   private readonly http = inject(HttpClient);
   private readonly items = signal<ClarityTask[]>([]);
   readonly tasks = this.items.asReadonly();
-  public selectedTask = signal<ClarityTask>(ClarityTask.empty());
-
   private loaded = false;
 
   addTask(item: ClarityTask): void  {
@@ -24,10 +22,8 @@ export class ClarityTasksService {
       return;
     }
 
-    const key = toDayKey(date)
-    task.effort.set(key, (task.effort.get(key) ?? 0) + elapsedTime);
-
-    this.items.update(tasks => [...tasks]);
+    const updatedTask = task.withAddedEffort(date, elapsedTime);
+    this.items.update(tasks => tasks.map(t => t.id === taskId ? updatedTask : t));
   }
 
   /**
@@ -47,11 +43,36 @@ export class ClarityTasksService {
     return undefined;
   }
 
-  getTasksForGroup(group: string): ClarityTask[] {
-    return this.tasks().filter(task => task.gruppe === group);
+  idExists(id: string): boolean {
+    return (!!this.findTask(id));
   }
 
-  groups(): string[] {
+  private readonly tasksByGroup = computed(() => {
+    const map = new Map<string, ClarityTask[]>();
+
+    for (const task of this.tasks()) {
+      const list = map.get(task.gruppe);
+      if (list) {
+        list.push(task);
+      } else {
+        map.set(task.gruppe, [task]);
+      }
+    }
+
+    return map;
+  });
+
+  readonly groups = computed<string[]>(() => [...this.tasksByGroup().keys()]);
+
+  getTasksForGroup(group: string): ClarityTask[] {
+    return this.tasksByGroup().get(group) ?? [];
+  }
+
+  /*getTasksForGroup(group: string): ClarityTask[] {
+    return this.tasks().filter(task => task.gruppe === group);
+  }*/
+
+  /*groups(): string[] {
     const groups = new Set<string>();
 
     this.tasks().forEach((task) => {
@@ -61,20 +82,7 @@ export class ClarityTasksService {
     });
 
     return [...groups];
-  }
-
-  selectTask(task: ClarityTask): ClarityTask {
-    const oldSelectedTask = this.selectedTask();
-    if (task.id === oldSelectedTask.id) {
-      return oldSelectedTask;
-    }
-
-    if (this.tasks().find(t => t.id === task.id)) {
-      this.selectedTask.set(task);
-    }
-
-    return oldSelectedTask;
-  }
+  }*/
 
   reload(force = false): void {
     if (this.loaded && !force) {
