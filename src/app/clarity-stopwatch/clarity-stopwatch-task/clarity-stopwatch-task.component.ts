@@ -1,15 +1,16 @@
 import { Component, computed, inject, input, model, signal } from '@angular/core';
 import { ClarityTask, toDayKey } from '../../clarity-tasks/clarity-tasks-list/clarity-tasks-list-item/clarity-task';
-import { Subscription, switchMap } from 'rxjs';
+import { switchMap } from 'rxjs';
 import { ClarityStopwatchService, StopwatchState } from '../clarity-stopwatch.service';
 import { AsyncPipe } from '@angular/common';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { ClarityTasksService } from '../../clarity-tasks/clarity-tasks-service';
 import { ElapsedTimePipe } from '../../elapsed-time-pipe';
+import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-clarity-stopwatch-task',
-  imports: [AsyncPipe, ElapsedTimePipe],
+  imports: [AsyncPipe, ElapsedTimePipe, ConfirmDialogComponent],
   templateUrl: './clarity-stopwatch-task.component.html',
   styleUrl: './clarity-stopwatch-task.component.scss',
 })
@@ -37,7 +38,6 @@ export class ClarityStopwatchTaskComponent {
   );
 
   protected internalState = signal<StopwatchState>(StopwatchState.Stopped);
-  private subscription?: Subscription;
 
   readonly classesTaskState = computed(() => {
     return {
@@ -55,16 +55,6 @@ export class ClarityStopwatchTaskComponent {
     };
   });
 
-  ngOnInit(): void {
-    this.subscription = this.state$.subscribe((state) => {
-      this.internalState.set(state);
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-  }
-
   start(): void {
     this.stopwatchService.start(this.task().id);
   }
@@ -73,11 +63,43 @@ export class ClarityStopwatchTaskComponent {
     this.stopwatchService.pause(this.task().id);
   }
 
+  protected readonly showStopConfirm = signal(false);
+  private readonly pendingElapsedTime = signal(0);
+
+  protected readonly stopConfirmMessage = computed(() => {
+    const formattedTime = this.stopwatchService.formatDuration(this.pendingElapsedTime());
+    return `Soll die gestoppte Zeit von ${formattedTime} für "${this.task().bezeichnung}" übernommen werden?`;
+  });
+
   stop(): void {
-    //const newDate = new Date();
-    const elapsedTime = this.stopwatchService.get(this.taskId())?.elapsedTime ?? 0;
+    this.pendingElapsedTime.set(this.stopwatchService.get(this.taskId())?.elapsedTime ?? 0);
+    this.showStopConfirm.set(true);
+    /*const elapsedTime = this.stopwatchService.get(this.taskId())?.elapsedTime ?? 0;
+    const formattedTime = this.stopwatchService.formatDuration(elapsedTime);
+
+    const confirmed = confirm(
+      `Soll die gestoppte Zeit von ${formattedTime} für "${this.task().bezeichnung}" übernommen werden?`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
     this.taskService.addElapsedTime(this.taskId(), elapsedTime, this.date());
+    this.stopwatchService.stop(this.task().id);*/
+  }
+
+  protected onStopConfirmed(): void {
+    this.taskService.addElapsedTime(this.taskId(), this.pendingElapsedTime(), this.date());
     this.stopwatchService.stop(this.task().id);
+  }
+
+  protected onStopDiscarded(): void {
+    this.stopwatchService.stop(this.task().id);
+  }
+
+  protected onStopCancelled(): void {
+    // nothing to do, stopwatch keeps running / pausing
   }
 
   selectTask(): void {

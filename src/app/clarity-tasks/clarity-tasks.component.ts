@@ -1,6 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { ClarityTask } from './clarity-tasks-list/clarity-tasks-list-item/clarity-task';
-import { ClarityTasksService } from './clarity-tasks-service';
+import { Component } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -9,11 +7,6 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './clarity-tasks.component.html',
   styleUrl: './clarity-tasks.component.scss',
 })
-export class ClarityTasksComponent implements OnInit {
-  private readonly taskService = inject(ClarityTasksService);
+export class ClarityTasksComponent {
 
-  ngOnInit() {
-    /*this.taskService.reload();
-    console.log('Component loaded');*/
-  }
 }

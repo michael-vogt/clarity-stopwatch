@@ -25,4 +25,12 @@
     </button>
   </div>
   }
+
+  <app-confirm-dialog
+    [(open)]="showStopConfirm"
+    [message]="stopConfirmMessage()"
+    (confirmed)="onStopConfirmed()"
+    (discarded)="onStopDiscarded()"
+    (cancelled)="onStopCancelled()" />
+
 </div>

@@ -1,0 +1,67 @@
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.dialog-box {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  min-width: 20rem;
+  max-width: 90vw;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.dialog-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.dialog-message {
+  margin: 0 0 1.5rem;
+  color: #333;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.dialog-actions button {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.btn-secondary {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+  color: #1f2937;
+
+  &:hover {
+    background: #e5e7eb;
+  }
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: #fff;
+
+  &:hover {
+    background: #1d4ed8;
+  }
+}
+
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}

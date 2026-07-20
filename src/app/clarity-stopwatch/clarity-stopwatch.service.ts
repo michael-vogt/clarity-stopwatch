@@ -1,5 +1,4 @@
-import { inject, Injectable, Service } from '@angular/core';
-import { ClarityTasksService } from '../clarity-tasks/clarity-tasks-service';
+import { Service } from '@angular/core';
 import { BehaviorSubject, interval, map, Observable, Subscription } from 'rxjs';
 
 export enum StopwatchState {
@@ -18,8 +17,6 @@ interface Stopwatch {
 
 @Service()
 export class ClarityStopwatchService {
-
-  private readonly taskService = inject(ClarityTasksService);
 
   private stopwatches = new Map<string, Stopwatch>();
 
@@ -80,18 +77,6 @@ export class ClarityStopwatchService {
     }
   }
 
-  remove(taskId: string): void {
-    const stopwatch = this.stopwatches.get(taskId);
-    if (!stopwatch) {
-      return;
-    }
-
-    this.stopTimer(stopwatch);
-    stopwatch.subject.complete();
-    stopwatch.state.complete();
-    this.stopwatches.delete(taskId);
-  }
-
   stop(taskId: string): void {
     const stopwatch = this.getOrCreate(taskId);
     this.stopTimer(stopwatch);
@@ -106,7 +91,7 @@ export class ClarityStopwatchService {
 
   getFormattedTime(taskId: string): Observable<string> {
     return this.getTime(taskId).pipe(
-      map(ms => this.format(ms))
+      map(ms => this.formatDuration(ms))
     );
   }
 
@@ -119,7 +104,7 @@ export class ClarityStopwatchService {
     stopwatch.timer = undefined;
   }
 
-  private format(ms: number): string {
+  formatDuration(ms: number): string {
     const totalSeconds = Math.floor(ms / 1000);
 
     const hours = Math.floor(totalSeconds / 3600);
