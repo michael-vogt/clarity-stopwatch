@@ -1,12 +1,15 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ClarityTasksListItemComponent } from './clarity-tasks-list-item/clarity-tasks-list-item.component';
 import { ClarityTasksService } from '../clarity-tasks-service';
+import { DatePipe } from '@angular/common';
+import { toDayKey } from './clarity-tasks-list-item/clarity-task';
+import { ElapsedTimePipe } from '../../elapsed-time-pipe';
 
 export type Format = 'decimal' | 'hms' | 'hm';
 
 @Component({
   selector: 'app-clarity-tasks-list',
-  imports: [ClarityTasksListItemComponent],
+  imports: [ClarityTasksListItemComponent, DatePipe, ElapsedTimePipe],
   templateUrl: './clarity-tasks-list.component.html',
   styleUrl: './clarity-tasks-list.component.scss',
 })
@@ -30,6 +33,13 @@ export class ClarityTasksListComponent {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
+  });
+  readonly weekDays = computed(() => {
+    return [0, 1, 2, 3, 4].map((d) => {
+      let date = new Date(this.date().getTime());
+      date.setDate(this.date().getDate() + d);
+      return date;
+    });
   });
 
   previousWeek(): void {
@@ -75,12 +85,12 @@ export class ClarityTasksListComponent {
     }
 
     const [year, month, day] = value.split('-').map(Number);
-    const newDate = new Date(year, month-1, day);
+    const newDate = new Date(year, month - 1, day);
     let dayOfWeek = newDate.getDay();
     if (dayOfWeek === 6) {
       dayOfWeek = 7;
     }
-    newDate.setDate(newDate.getDate() - (dayOfWeek-1));
+    newDate.setDate(newDate.getDate() - (dayOfWeek - 1));
     this.date.set(newDate);
   }
 
@@ -90,7 +100,14 @@ export class ClarityTasksListComponent {
     if (dayOfWeek === 6) {
       dayOfWeek = 7;
     }
-    dateCopy.setDate(dateCopy.getDate() - (dayOfWeek-1));
+    dateCopy.setDate(dateCopy.getDate() - (dayOfWeek - 1));
     return dateCopy;
   }
+
+  protected readonly effortSum = computed(() => {
+    return this.weekDays().map(day => {
+      const key = toDayKey(day);
+      return this.tasks().reduce((sum, task) => sum + (task.effort.get(key) ?? 0), 0);
+    });
+  });
 }

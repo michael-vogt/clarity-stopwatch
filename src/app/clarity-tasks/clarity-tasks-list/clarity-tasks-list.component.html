@@ -19,11 +19,15 @@
 <div class="grid-wrapper">
   <div class="grid-row grid-header">
     <div class="grid-cell">Bezeichnung</div>
-    <div class="grid-cell">Montag</div>
-    <div class="grid-cell">Dienstag</div>
-    <div class="grid-cell">Mittwoch</div>
-    <div class="grid-cell">Donnerstag</div>
-    <div class="grid-cell">Freitag</div>
+    @for (ind of [0,1,2,3,4]; track ind) {
+    <div class="grid-cell">{{weekDays()[ind] | date : 'EEEE, dd.MM.yyyy' }}</div>
+    }
+  </div>
+  <div class="grid-row">
+    <div class="grid-cell">Tagessumme</div>
+    @for (ind of [0,1,2,3,4]; track ind) {
+    <div class="grid-cell">{{ effortSum()[ind] | elapsedTime : { format: selectedFormat(), shortForZeros: true, zeroReplacement: '-' } }}</div>
+    }
   </div>
   @for (grp of groups(); track grp) {
     <div class="grid-cell-group">{{ grp }}</div>
