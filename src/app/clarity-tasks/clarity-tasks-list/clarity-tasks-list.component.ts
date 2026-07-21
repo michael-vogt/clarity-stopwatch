@@ -2,6 +2,8 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { ClarityTasksListItemComponent } from './clarity-tasks-list-item/clarity-tasks-list-item.component';
 import { ClarityTasksService } from '../clarity-tasks-service';
 
+export type Format = 'decimal' | 'hms' | 'hm';
+
 @Component({
   selector: 'app-clarity-tasks-list',
   imports: [ClarityTasksListItemComponent],
@@ -21,7 +23,7 @@ export class ClarityTasksListComponent {
     });
   }
 
-  readonly date = signal<Date>(new Date());
+  readonly date = signal<Date>(this.resetToMonday(new Date()));
   selectedDateInput = computed(() => {
     const date = this.date();
     const year = date.getFullYear();
@@ -30,12 +32,65 @@ export class ClarityTasksListComponent {
     return `${year}-${month}-${day}`;
   });
 
+  previousWeek(): void {
+    this.date.update((d) => {
+      const prevWeek = new Date(d);
+      prevWeek.setDate(prevWeek.getDate() - 7);
+      return prevWeek;
+    });
+  }
+
+  thisWeek(): void {
+    this.date.update(() => this.resetToMonday(new Date()));
+  }
+
+  nextWeek(): void {
+    this.date.update((d) => {
+      const nextWeek = new Date(d);
+      nextWeek.setDate(nextWeek.getDate() + 7);
+      return nextWeek;
+    });
+  }
+
+  selectedFormat = signal<Format>('hms');
+  onFormatChange(event: Event): void {
+    if (event) {
+      const value = (event.target as HTMLSelectElement).value;
+      switch (value) {
+        case 'decimal':
+          this.selectedFormat.set('decimal');
+          break;
+        case 'hms':
+          this.selectedFormat.set('hms');
+          break;
+        case 'hm':
+          this.selectedFormat.set('hm');
+      }
+    }
+  }
+
   onDateInputChange(value: string): void {
     if (!value) {
       return;
     }
 
     const [year, month, day] = value.split('-').map(Number);
-    this.date.set(new Date(year, month-1, day));
+    const newDate = new Date(year, month-1, day);
+    let dayOfWeek = newDate.getDay();
+    if (dayOfWeek === 6) {
+      dayOfWeek = 7;
+    }
+    newDate.setDate(newDate.getDate() - (dayOfWeek-1));
+    this.date.set(newDate);
+  }
+
+  private resetToMonday(date: Date): Date {
+    const dateCopy = new Date(date);
+    let dayOfWeek = dateCopy.getDay();
+    if (dayOfWeek === 6) {
+      dayOfWeek = 7;
+    }
+    dateCopy.setDate(dateCopy.getDate() - (dayOfWeek-1));
+    return dateCopy;
   }
 }

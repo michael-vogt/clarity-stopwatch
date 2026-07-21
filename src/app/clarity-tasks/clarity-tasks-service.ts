@@ -8,7 +8,7 @@ export function dateToKey(date: Date): string {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
-  return [year, month, day].join('-');
+  return [year, month, day].map(v => String(v).padStart(2, '0')).join('-');
 }
 
 @Service()
@@ -74,22 +74,6 @@ export class ClarityTasksService {
   getTasksForGroup(group: string): ClarityTask[] {
     return this.tasksByGroup().get(group) ?? [];
   }
-
-  /*getTasksForGroup(group: string): ClarityTask[] {
-    return this.tasks().filter(task => task.gruppe === group);
-  }*/
-
-  /*groups(): string[] {
-    const groups = new Set<string>();
-
-    this.tasks().forEach((task) => {
-      if (!groups.has(task.gruppe)) {
-        groups.add(task.gruppe);
-      }
-    });
-
-    return [...groups];
-  }*/
 
   reload(force = false): void {
     if (this.loaded && !force) {

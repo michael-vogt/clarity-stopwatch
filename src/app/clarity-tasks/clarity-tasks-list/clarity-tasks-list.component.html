@@ -1,19 +1,20 @@
 <button type="button" (click)="persist()">Exportieren</button>
-
-<!--@for (grp of groups(); track grp) {
-  <h2>{{grp}}</h2>
-  <ul>
-  @for (task of taskService.getTasksForGroup(grp); track task.id) {
-    <app-clarity-tasks-list-item [task]="task"></app-clarity-tasks-list-item>
-  }
-  </ul>
-}-->
-
+<br/>
 <label for="stopwatch-date">Datum</label>
 <input id="stopwatch-date"
        type="date"
+       min="1970-01-05"
+       step="7"
        [value]="selectedDateInput()"
        (change)="onDateInputChange($any($event.target).value)">
+<button type="button" (click)="previousWeek()">|&lt;</button>
+<button type="button" (click)="thisWeek()">aktuell</button>
+<button type="button" (click)="nextWeek()">&gt;|</button>
+<select (change)="onFormatChange(($event))">
+  <option [selected]="selectedFormat() === 'decimal'" value="decimal">Dezimal</option>
+  <option [selected]="selectedFormat() === 'hms'" value="hms">HH:MM:SS</option>
+  <option [selected]="selectedFormat() === 'hm'" value="hm">HH:MM</option>
+</select>
 
 <div class="grid-wrapper">
   <div class="grid-row grid-header">
@@ -28,7 +29,8 @@
     <div class="grid-cell-group">{{ grp }}</div>
     @for (task of taskService.getTasksForGroup(grp); track task.id) {
       <app-clarity-tasks-list-item [task]="task"
-                                   [date]="date()"></app-clarity-tasks-list-item>
+                                   [date]="date()"
+                                   [format]="selectedFormat()"></app-clarity-tasks-list-item>
     }
   }
 </div>

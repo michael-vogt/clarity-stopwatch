@@ -1,16 +1,19 @@
 import { Component, computed, input } from '@angular/core';
 import { ClarityTask } from './clarity-task';
 import { dateToKey } from '../../clarity-tasks-service';
+import { ElapsedTimePipe } from '../../../elapsed-time-pipe';
+import { Format } from '../clarity-tasks-list.component';
 
 @Component({
   selector: 'app-clarity-tasks-list-item',
-  imports: [],
+  imports: [ElapsedTimePipe],
   templateUrl: './clarity-tasks-list-item.component.html',
   styleUrl: './clarity-tasks-list-item.component.scss',
 })
 export class ClarityTasksListItemComponent {
   readonly task = input.required<ClarityTask>();
   readonly date = input.required<Date>();
+  readonly format = input.required<Format>();
 
   readonly daysOfWeek = computed<string[]>(() => {
     const dayOfWeek = this.date().getDay();
@@ -24,4 +27,8 @@ export class ClarityTasksListItemComponent {
 
     return daysOfWeek.map((d) => dateToKey(d));
   });
+
+  protected effort(date: string): number {
+    return this.task().effort.get(date) ?? 0;
+  }
 }

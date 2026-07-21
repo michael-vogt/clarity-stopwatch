@@ -1,29 +1,9 @@
-<!--<div>
-  <h1>{{ task().bezeichnung }} [{{task().id}}]</h1>
-  <h2>Gruppe: {{ task().gruppe }}</h2>
-  <h2>Aufwände:</h2>
-  @if (task().effort.size > 0) {
-  <ul>
-    @for (entry of task().effort; track entry[0]) {
-      <li>{{entry[0] | date:'mediumDate' }}: {{ entry[1] }}</li>
-    }
-  </ul>
-  } @else {
-    <p>noch keine Aufwände gebucht</p>
-  }
-</div>
-
-<li>
-  {{ task().bezeichnung }}
-  <span class="taskId">[{{ task().id }}]</span>
-</li>-->
-
 <div class="grid-row">
   <div class="grid-cell">
     <span class="task-bezeichnung">{{ task().bezeichnung }}</span><br/>
     <span class="task-id">{{ task().id }}</span>
   </div>
   @for (day of daysOfWeek(); track day) {
-    <div class="grid-cell">{{ day }}</div>
+    <div class="grid-cell">{{ effort(day) | elapsedTime: { format: format(), shortForZeros: true, zeroReplacement: '-' } }}</div>
   }
 </div>
