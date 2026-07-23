@@ -85,7 +85,7 @@ export class ClarityTasksService {
         if (a.gruppe !== b.gruppe) {
           return a.gruppe.localeCompare(b.gruppe);
         }
-        return a.bezeichnung.localeCompare(a.bezeichnung);
+        return a.bezeichnung.localeCompare(b.bezeichnung);
       });
       this.items.set(tasks);
       this.loaded = true;

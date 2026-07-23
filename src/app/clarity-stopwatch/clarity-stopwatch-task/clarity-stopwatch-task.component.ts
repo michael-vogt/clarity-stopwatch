@@ -1,9 +1,12 @@
 import { Component, computed, inject, input, model, signal } from '@angular/core';
-import { ClarityTask, toDayKey } from '../../clarity-tasks/clarity-tasks-list/clarity-tasks-list-item/clarity-task';
+import {
+  ClarityTask,
+  toDayKey,
+} from '../../clarity-tasks/clarity-tasks-list/clarity-tasks-list-item/clarity-task';
 import { switchMap } from 'rxjs';
 import { ClarityStopwatchService, StopwatchState } from '../clarity-stopwatch.service';
 import { AsyncPipe } from '@angular/common';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ClarityTasksService } from '../../clarity-tasks/clarity-tasks-service';
 import { ElapsedTimePipe } from '../../elapsed-time-pipe';
 import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
@@ -26,7 +29,6 @@ export class ClarityStopwatchTaskComponent {
 
   readonly date = input.required<Date>();
   currentEffort = computed(() => {
-    console.log(toDayKey(this.date()));
     return this.task().effort.get(toDayKey(this.date())) ?? 0;
   });
 
@@ -37,7 +39,7 @@ export class ClarityStopwatchTaskComponent {
     switchMap((id) => this.stopwatchService.getState(id)),
   );
 
-  protected internalState = signal<StopwatchState>(StopwatchState.Stopped);
+  protected internalState = toSignal(this.state$, { initialValue: StopwatchState.Stopped });
 
   readonly classesTaskState = computed(() => {
     return {
@@ -74,19 +76,6 @@ export class ClarityStopwatchTaskComponent {
   stop(): void {
     this.pendingElapsedTime.set(this.stopwatchService.get(this.taskId())?.elapsedTime ?? 0);
     this.showStopConfirm.set(true);
-    /*const elapsedTime = this.stopwatchService.get(this.taskId())?.elapsedTime ?? 0;
-    const formattedTime = this.stopwatchService.formatDuration(elapsedTime);
-
-    const confirmed = confirm(
-      `Soll die gestoppte Zeit von ${formattedTime} für "${this.task().bezeichnung}" übernommen werden?`
-    );
-
-    if (!confirmed) {
-      return;
-    }
-
-    this.taskService.addElapsedTime(this.taskId(), elapsedTime, this.date());
-    this.stopwatchService.stop(this.task().id);*/
   }
 
   protected onStopConfirmed(): void {
