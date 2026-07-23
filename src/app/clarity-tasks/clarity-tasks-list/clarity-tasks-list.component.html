@@ -20,13 +20,13 @@
   <div class="grid-row grid-header">
     <div class="grid-cell">Bezeichnung</div>
     @for (ind of [0,1,2,3,4]; track ind) {
-    <div class="grid-cell">{{weekDays()[ind] | date : 'EEEE, dd.MM.yyyy' }}</div>
+    <div class="grid-cell" [class.today-column]="todayIndex() === ind">{{weekDays()[ind] | date : 'EEEE, dd.MM.yyyy' }}</div>
     }
   </div>
   <div class="grid-row">
     <div class="grid-cell">Tagessumme</div>
     @for (ind of [0,1,2,3,4]; track ind) {
-    <div class="grid-cell">{{ effortSum()[ind] | elapsedTime : { format: selectedFormat(), shortForZeros: true, zeroReplacement: '-' } }}</div>
+    <div class="grid-cell" [class.today-column]="todayIndex() === ind">{{ effortSum()[ind] | elapsedTime : { format: selectedFormat(), shortForZeros: true, zeroReplacement: '-' } }}</div>
     }
   </div>
   @for (grp of groups(); track grp) {

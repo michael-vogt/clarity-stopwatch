@@ -1,6 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ClarityTasksListItemComponent } from './clarity-tasks-list-item/clarity-tasks-list-item.component';
-import { ClarityTasksService } from '../clarity-tasks-service';
+import { ClarityTasksService, dateToKey } from '../clarity-tasks-service';
 import { DatePipe } from '@angular/common';
 import { toDayKey } from './clarity-tasks-list-item/clarity-task';
 import { ElapsedTimePipe } from '../../elapsed-time-pipe';
@@ -103,6 +103,11 @@ export class ClarityTasksListComponent {
     dateCopy.setDate(dateCopy.getDate() - (dayOfWeek - 1));
     return dateCopy;
   }
+
+  readonly todayIndex = computed(() => {
+    const todayKey = dateToKey(new Date());
+    return this.weekDays().findIndex(day => dateToKey(day) === todayKey);
+  });
 
   protected readonly effortSum = computed(() => {
     return this.weekDays().map(day => {

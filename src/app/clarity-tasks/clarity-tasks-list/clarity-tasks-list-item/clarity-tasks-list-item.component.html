@@ -3,7 +3,7 @@
     <span class="task-bezeichnung">{{ task().bezeichnung }}</span>
     <span class="task-id">{{ task().id }}</span>
   </div>
-  @for (day of daysOfWeek(); track day) {
-    <div class="grid-cell">{{ effort(day) | elapsedTime: { format: format(), shortForZeros: true, zeroReplacement: '-' } }}</div>
+  @for (day of daysOfWeek(); track day; let i = $index) {
+    <div class="grid-cell" [class.today-column]="todayIndex() === i">{{ effort(day) | elapsedTime: { format: format(), shortForZeros: true, zeroReplacement: '-' } }}</div>
   }
 </div>

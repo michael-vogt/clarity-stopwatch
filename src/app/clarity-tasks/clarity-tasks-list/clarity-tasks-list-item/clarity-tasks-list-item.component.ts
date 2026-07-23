@@ -31,4 +31,9 @@ export class ClarityTasksListItemComponent {
   protected effort(date: string): number {
     return this.task().effort.get(date) ?? 0;
   }
+
+  readonly todayIndex = computed(() => {
+    const todayKey = dateToKey(new Date());
+    return this.daysOfWeek().indexOf(todayKey);
+  });
 }
