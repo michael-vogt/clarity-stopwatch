@@ -10,7 +10,7 @@
 
 .grid-row {
   display: grid;
-  grid-template-columns: 2fr repeat(5, 1fr);
+  grid-template-columns: 2fr repeat(6, 1fr);
   border-top: 1px solid black;
 
   &:first-child {
@@ -49,13 +49,22 @@
     align-items: flex-start;
   }
 
+  &:not(:first-child) {
+    justify-content: center;
+  }
+
   &:last-child {
     border-right: 0;
+    border-left: 1px solid black;
   }
 }
 
 .today-column {
   background-color: rgba(255, 213, 79, 0.35);
+}
+
+.total-column {
+  background-color: rgba(146, 64, 14, 0.35);
 }
 
 .task-bezeichnung {

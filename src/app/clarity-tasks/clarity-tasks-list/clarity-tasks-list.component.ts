@@ -115,4 +115,8 @@ export class ClarityTasksListComponent {
       return this.tasks().reduce((sum, task) => sum + (task.effort.get(key) ?? 0), 0);
     });
   });
+
+  protected readonly effortSumOfWeek = computed(() => {
+    return this.effortSum().reduce((total, effort) => total + effort, 0);
+  });
 }

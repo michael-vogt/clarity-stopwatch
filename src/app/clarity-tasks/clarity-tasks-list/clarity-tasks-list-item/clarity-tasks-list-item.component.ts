@@ -3,6 +3,7 @@ import { ClarityTask } from './clarity-task';
 import { dateToKey } from '../../clarity-tasks-service';
 import { ElapsedTimePipe } from '../../../elapsed-time-pipe';
 import { Format } from '../clarity-tasks-list.component';
+import { readonly } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-clarity-tasks-list-item',
@@ -27,6 +28,12 @@ export class ClarityTasksListItemComponent {
 
     return daysOfWeek.map((d) => dateToKey(d));
   });
+
+  readonly effortOfWeek = computed(() => {
+    const keys = this.daysOfWeek();
+    const map = this.task().effort;
+    return keys.reduce((total, key) => total + (map.get(key) ?? 0), 0);
+});
 
   protected effort(date: string): number {
     return this.task().effort.get(date) ?? 0;
