@@ -1,1 +1,4 @@
-<p>home works!</p>
+<select (change)="onThemeChange($event)" [value]="themeService.currentTheme()">
+  <option value="light">Hell</option>
+  <option value="dark">Dunkel</option>
+</select>

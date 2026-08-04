@@ -1,0 +1,82 @@
+/*
+  Farbpalette
+ */
+:root, [data-theme="light"] {
+  /* TaskList-Layout */
+  --color-header-bg: #1f4e79;
+  --color-sections-bg: #d9eaf7;
+  --color-row-normal: #fff;
+  --color-row-normal-hover: #f0f7ff; //#dcebfa;
+  --color-cell-selected: #cfe8ff;
+  --color-column-today: #e8f3ff;
+  --color-column-sum: #d9f0e8;
+  --color-grid: #d0d7de;
+  --color-font-default: #000;
+  --color-font-header: #fff;
+  --color-font-cell-selected: var(--color-font-default);
+  --color-border-normal: black;
+  --color-border-hover: red;
+  --color-stopwatch-paused: gold;
+
+  /* Seiten-Grundlayout */
+  --color-app-bg: #ffffff;
+  --color-app-text: #212121;
+  --color-app-text-muted: #757575;
+  --color-app-heading: #333333;
+
+  /* Buttons / Sidebar */
+  --color-button-bg: #1e2226;
+  --color-button-bg-hover: #2a323b;
+  --color-button-bg-selected: #1f4e79;
+  --color-button-text: #ffffff;
+  --color-button-text-selected: #ffffff;
+
+  /* Untermenü-Buttons (weiß/umrandet im Screenshot) */
+  --color-button-outline-bg: #ffffff;
+  --color-button-outline-bg-selected: #d9d9d9;
+  --color-button-outline-border: #333333;
+  --color-button-outline-text: #212121;
+
+  --color-warning-bg: #fff3cd;
+  --color-warning-border: #ffe69c;
+  --color-warning-text: #664d03;
+  --color-warning-icon: #ff9800;
+}
+
+[data-theme="dark"] {
+  --color-header-bg: #14324a;
+  --color-sections-bg: #1c3a52;
+  --color-row-normal: #1e2226;
+  --color-row-normal-hover: #2a323b;
+  --color-cell-selected: #2f5a82;
+  --color-column-today: #24425c;
+  --color-column-sum: #1e3d33;
+  --color-grid: #3a4149;
+  --color-font-default: #e6e6e6;
+  --color-font-header: #ffffff;
+  --color-font-cell-selected: var(--color-font-default);
+  --color-border-normal: #6b7178;
+  --color-border-hover: #ff6b6b;
+  --color-stopwatch-paused: #e6c200;
+
+  --color-app-bg: #121212;
+  --color-app-text: #e6e6e6;
+  --color-app-text-muted: #a0a0a0;
+  --color-app-heading: #ffffff;
+
+  --color-button-bg: #2a2f36;
+  --color-button-bg-hover: #3a4149;
+  --color-button-bg-selected: #14324a;
+  --color-button-text: #ffffff;
+  --color-button-text-selected: #ffffff;
+
+  --color-button-outline-bg: #1e2226;
+  --color-button-outline-bg-selected: #2a323b;
+  --color-button-outline-border: #6b7178;
+  --color-button-outline-text: #e6e6e6;
+
+  --color-warning-bg: #3d3320;
+  --color-warning-border: #5c4a1f;
+  --color-warning-text: #ffd670;
+  --color-warning-icon: #ffb74d;
+}

@@ -1,28 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 
-/*
-  Farbpalette
- */
-:root {
-  --color-header-bg: #1f4e79;
-  --color-sections-bg: #d9eaf7;
-  --color-row-normal: #fff;
-  --color-row-normal-hover: #f0f7ff; //#dcebfa;
-  --color-cell-selected: #0078d4; //#cfe8ff;
-  --color-column-today: #e8f3ff;
-  --color-column-sum: #d9f0e8;
-  --color-grid: #d0d7de;
+@use "color-palette";
 
-  --color-font-default: #000;
-  --color-font-header: #fff;
-  --color-font-cell-selected: #fff;
-
-  --color-border-normal: black;
-  --color-border-hover: red;
-
-  --color-stopwatch-paused: gold;
+body {
+  margin: 1rem;
+  background-color: var(--color-app-bg);
+  color: var(--color-app-text);
 }
 
+h1, h2, h3 {
+  color: var(--color-app-heading);
+}
 
 .grid-wrapper {
   display: grid;

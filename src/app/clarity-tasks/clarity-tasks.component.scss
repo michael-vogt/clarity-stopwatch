@@ -6,15 +6,17 @@ a {
   height: 5rem;
   text-align: center;
   line-height: 5rem;
-  border: 1px solid black;
+  border: 1px solid var(--color-border-normal);
   border-radius: 0.5rem;
   margin: 0.5rem;
   text-decoration: none;
-  color: black;
+  color: var(--color-text-normal);
+  background-color: var(--color-row-normal-hover);
 }
 
 a:hover {
   font-weight: bold;
+  background-color: var(--color-sections-bg);
 }
 
 nav:after {
@@ -24,6 +26,6 @@ nav:after {
 }
 
 .active {
-  background-color: lightgray;
+  background-color: var(--color-sections-bg);
   font-weight: bold;
 }
