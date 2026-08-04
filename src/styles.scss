@@ -1,12 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
+
+/*
+  Farbpalette
+ */
+:root {
+  --color-header-bg: #1f4e79;
+  --color-sections-bg: #d9eaf7;
+  --color-row-normal: #fff;
+  --color-row-normal-hover: #f0f7ff; //#dcebfa;
+  --color-cell-selected: #0078d4; //#cfe8ff;
+  --color-column-today: #e8f3ff;
+  --color-column-sum: #d9f0e8;
+  --color-grid: #d0d7de;
+
+  --color-font-default: #000;
+  --color-font-header: #fff;
+  --color-font-cell-selected: #fff;
+
+  --color-border-normal: black;
+  --color-border-hover: red;
+
+  --color-stopwatch-paused: gold;
+}
+
+
 .grid-wrapper {
   display: grid;
   grid-template-columns: 1fr;
   max-width: 100%;
   //border: 1px solid black;
   //border-bottom: 0;
-  border-left: 1px solid black;
-  border-top: 1px solid black;
+  border-left: 1px solid var(--color-grid);
+  border-top: 1px solid var(--color-grid);
   align-items: center;
 }
 
@@ -14,7 +39,7 @@
   display: grid;
   grid-template-columns: 2fr repeat(6, 1fr);
   //border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--color-grid);
 
   &:first-child {
     //border: 0;
@@ -24,7 +49,11 @@
     //border-bottom: 0;
 
     & ~ .grid-row {
-      background-color: lightslategray;
+      background-color: var(--color-header-bg);
+    }
+
+    & > .today-column {
+      color: var(--color-font-default);
     }
   }
 
@@ -32,7 +61,8 @@
 
 .grid-header {
   font-weight: bold;
-  background-color: lightslategray;
+  color: var(--color-font-header);
+  background-color: var(--color-header-bg);
   //border-bottom: 0;
 
   & > .grid-cell {
@@ -44,14 +74,14 @@
 .grid-cell-group {
   grid-template-columns: 1fr;
   //border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
+  border-bottom: 1px solid var(--color-grid);
+  border-right: 1px solid var(--color-grid);
   padding: 10px;
-  background-color: darkgray;
+  background-color: var(--color-sections-bg);
 }
 
 .grid-cell {
-  border-right: 1px solid black;
+  border-right: 1px solid var(--color-grid);
   //border-bottom: 1px solid black;
   padding: 10px;
   display: flex;
@@ -81,16 +111,9 @@
 }
 
 .today-column {
-  background-color: rgba(255, 213, 79, 0.35);
+  background-color: var(--color-column-today);
 }
 
 .total-column {
-  background-color: rgba(146, 64, 14, 0.35);
-}
-
-.task-bezeichnung {
-}
-
-.task-id {
-  color: dimgray;
+  background-color: var(--color-column-sum);
 }

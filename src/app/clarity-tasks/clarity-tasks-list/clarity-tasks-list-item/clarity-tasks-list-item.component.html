@@ -1,7 +1,7 @@
 <div class="grid-row clickable">
   <div class="grid-cell clickable" (click)="goToStopwatch(task())">
-    <span class="task-bezeichnung">{{ task().bezeichnung }}</span>
-    <span class="task-id">{{ task().id }}</span>
+    <span>{{ task().bezeichnung }}</span>
+    <span>{{ task().id }}</span>
   </div>
   @for (day of daysOfWeek(); track day; let i = $index) {
     <div class="grid-cell clickable" [class.today-column]="todayIndex() === i" (click)="goToStopwatch(task(), day)">{{ effort(day) | elapsedTime: { format: format(), shortForZeros: true, zeroReplacement: '-' } }}</div>

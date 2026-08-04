@@ -41,6 +41,13 @@ export class ClarityStopwatchTaskComponent {
 
   protected internalState = toSignal(this.state$, { initialValue: StopwatchState.Stopped });
 
+  readonly classesTaskContainerState = computed(() => {
+    return {
+      'task-container': true,
+      selected: this.selected()
+    };
+  });
+
   readonly classesTaskState = computed(() => {
     return {
       'clarity-task': true,

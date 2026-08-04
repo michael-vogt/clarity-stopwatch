@@ -1,16 +1,16 @@
-.taskId {
-  color: gray;
-}
-
 .clickable {
   cursor: pointer;
+
+  &:hover {
+    color: var(--color-font-cell-selected);
+  }
 }
 
 .grid-row.clickable:hover {
-  background-color: lightgrey;
+  background-color: var(--color-row-normal-hover);
 }
 
 .grid-cell.clickable:hover {
-  background-color: rgba(255, 0, 0, 0.1);
+  background-color: var(--color-cell-selected);
 }
 

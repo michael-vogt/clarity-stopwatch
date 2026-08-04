@@ -1,4 +1,4 @@
-<div class="task-container">
+<div [class]="classesTaskContainerState()">
   <div [class]="classesTaskState()" (click)="selectTask()">
     <h1>{{task().bezeichnung}}</h1>
     <h2>{{task().id}}</h2>
