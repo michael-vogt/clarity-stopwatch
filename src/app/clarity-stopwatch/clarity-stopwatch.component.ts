@@ -14,6 +14,7 @@ export class ClarityStopwatchComponent {
   readonly tasks = this.taskService.tasks;
 
   readonly taskId = input<string>();
+  readonly taskDate = input<string>();
 
   constructor() {
     effect(() => {
@@ -23,6 +24,12 @@ export class ClarityStopwatchComponent {
       }
       this.selectedTaskId.set(id);
 
+      const date = this.taskDate();
+      if (!date) {
+        return;
+      }
+
+      this.selectedDate.set(new Date(date));
       const task = this.taskService.findTask(id);
       if (task) {
         this.expandedGroups.update(groups => new Set(groups).add(task.gruppe));

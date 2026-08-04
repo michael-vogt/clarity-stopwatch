@@ -2,6 +2,15 @@
   color: gray;
 }
 
-.grid-cell.clickable:hover {
-  background-color: rosybrown;
+.clickable {
+  cursor: pointer;
 }
+
+.grid-row.clickable:hover {
+  background-color: lightgrey;
+}
+
+.grid-cell.clickable:hover {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+

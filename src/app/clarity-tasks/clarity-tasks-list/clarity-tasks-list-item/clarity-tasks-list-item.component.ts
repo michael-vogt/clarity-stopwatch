@@ -47,7 +47,7 @@ export class ClarityTasksListItemComponent {
     return this.daysOfWeek().indexOf(todayKey);
   });
 
-  protected goToStopwatch(task: ClarityTask): void {
-    this.router.navigate(['/stopwatch'], { queryParams: { taskId: task.id } });
+  protected goToStopwatch(task: ClarityTask, date: string | null = null): void {
+    this.router.navigate(['/stopwatch'], { queryParams: { taskId: task.id, taskDate: date } });
   }
 }
