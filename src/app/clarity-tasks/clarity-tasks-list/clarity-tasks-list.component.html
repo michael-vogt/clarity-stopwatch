@@ -23,17 +23,23 @@
   <div class="grid-row grid-header">
     <div class="grid-cell">Bezeichnung</div>
     @for (ind of [0,1,2,3,4]; track ind) {
-    <div class="grid-cell centered-column" [class.today-column]="todayIndex() === ind">{{weekDays()[ind] | date : 'EEEE, dd.MM.yyyy' }}</div>
+    <div class="grid-cell centered-column" [class.today-column]="todayIndex() === ind">
+      <span>{{weekDays()[ind] | date : 'EEEE, dd.MM.yyyy' }}</span>
+      <span>{{ effortSum()[ind] | elapsedTime : { format: selectedFormat(), shortForZeros: true, zeroReplacement: '&nbsp;' } }}</span>
+    </div>
     }
-    <div class="grid-cell">Wochensumme</div>
+    <div class="grid-cell centered-column">
+      <span>Summe</span>
+      <span>{{ effortSumOfWeek() | elapsedTime : { format: selectedFormat(), shortForZeros: true, zeroReplacement: '&nbsp;' } }}</span>
+    </div>
   </div>
-  <div class="grid-row">
-    <div class="grid-cell">Tagessumme</div>
+  <!--<div class="grid-row">
+    <div class="grid-cell"></div>
     @for (ind of [0,1,2,3,4]; track ind) {
     <div class="grid-cell" [class.today-column]="todayIndex() === ind">{{ effortSum()[ind] | elapsedTime : { format: selectedFormat(), shortForZeros: true, zeroReplacement: '-' } }}</div>
     }
     <div class="grid-cell total-column">{{ effortSumOfWeek() | elapsedTime : { format: selectedFormat(), shortForZeros: true, zeroReplacement: '-' } }}</div>
-  </div>
+  </div>-->
   @for (grp of groups(); track grp) {
     <div class="grid-cell-group">{{ grp }}</div>
     @for (task of taskService.getTasksForGroup(grp); track task.id) {

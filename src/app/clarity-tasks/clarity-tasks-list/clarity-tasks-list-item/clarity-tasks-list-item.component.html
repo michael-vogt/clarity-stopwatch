@@ -1,5 +1,5 @@
 <div class="grid-row">
-  <div class="grid-cell">
+  <div class="grid-cell clickable" (click)="goToStopwatch(task())">
     <span class="task-bezeichnung">{{ task().bezeichnung }}</span>
     <span class="task-id">{{ task().id }}</span>
   </div>

@@ -1,9 +1,10 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { ClarityTask } from './clarity-task';
-import { dateToKey } from '../../clarity-tasks-service';
+import { ClarityTasksService, dateToKey } from '../../clarity-tasks-service';
 import { ElapsedTimePipe } from '../../../elapsed-time-pipe';
 import { Format } from '../clarity-tasks-list.component';
 import { readonly } from '@angular/forms/signals';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-clarity-tasks-list-item',
@@ -12,6 +13,8 @@ import { readonly } from '@angular/forms/signals';
   styleUrl: './clarity-tasks-list-item.component.scss',
 })
 export class ClarityTasksListItemComponent {
+  private readonly router = inject(Router);
+
   readonly task = input.required<ClarityTask>();
   readonly date = input.required<Date>();
   readonly format = input.required<Format>();
@@ -43,4 +46,8 @@ export class ClarityTasksListItemComponent {
     const todayKey = dateToKey(new Date());
     return this.daysOfWeek().indexOf(todayKey);
   });
+
+  protected goToStopwatch(task: ClarityTask): void {
+    this.router.navigate(['/stopwatch'], { queryParams: { taskId: task.id } });
+  }
 }
